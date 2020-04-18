@@ -1,0 +1,139 @@
+<div *ngIf=!scheduleView>
+        <mat-tab-group  mat-stretch-tabs animationDuration="0ms" (selectedTabChange)="tabChanged($event)">
+            <mat-tab  label="Daily" style="height:100%;"> 
+                    <form [formGroup]="dailyForm" style="text-align: center;">
+                        Every 
+                        <mat-form-field appearance="outline" style="width:8%;text-align:center">
+                            <input matInput formControlName='frequency' type='number' autocomplete="false">
+                        </mat-form-field>
+                        day(s) at 
+                        <mat-form-field appearance="outline" style="width:8%;text-align:center"> 
+                            <input  matInput  [ngxTimepicker]="dailyTimePicker" formControlName='time' [value]="'12:00 pm'"  readonly>
+                            <ngx-material-timepicker #dailyTimePicker></ngx-material-timepicker>
+                        </mat-form-field>
+                    </form>
+            </mat-tab>
+            <mat-tab label="Weekly" > 
+                    <form [formGroup]="weeklyForm" style="text-align: center;">
+                        <div>
+                            <mat-radio-group
+                                formControlName="day">
+                                <mat-radio-button class="task-radio-button" *ngFor="let day of days" [value]="day.id">
+                                    {{day.name}}
+                                </mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                        Every 
+                        <mat-form-field appearance="outline" style="width:8%;text-align:center">
+                            <input matInput formControlName='frequency' type='number' autocomplete="false">
+                        </mat-form-field>
+                        Week 
+                        on
+                        {{weeklyForm.get('day').value}}
+                        at 
+                        <mat-form-field appearance="outline" style="width:8%;text-align:center"> 
+                            <input  matInput  [ngxTimepicker]="weeklyTimePicker" formControlName='time' [value]="'12:00 pm'"  readonly>
+                            <ngx-material-timepicker #weeklyTimePicker></ngx-material-timepicker>
+                        </mat-form-field>
+                    </form>
+            </mat-tab>
+            <mat-tab label="Monthly"> 
+                <form [formGroup]="monthlyForm" style="text-align: center;">
+                    Every 
+                    <mat-form-field appearance="outline" style="width:8%;text-align:center">
+                        <input matInput formControlName='frequency' type='number' autocomplete="false">
+                    </mat-form-field>
+                    Months 
+                    on day
+                    <mat-form-field appearance="outline" style="width:8%;text-align:center">
+                        <input matInput formControlName='date' type='number' autocomplete="false">
+                    </mat-form-field>
+                     at 
+                    <mat-form-field appearance="outline" style="width:8%;text-align:center"> 
+                        <input  matInput  [ngxTimepicker]="monthlyTimePicker" formControlName='time' [value]="'12:00 pm'"  readonly>
+                        <ngx-material-timepicker #monthlyTimePicker></ngx-material-timepicker>
+                    </mat-form-field>
+                </form>
+            </mat-tab>
+            <mat-tab label="Yearly"> 
+                <form [formGroup]="yearlyForm" style="text-align: center;">
+                   <div>
+                    <mat-radio-group
+                        formControlName="month">
+                        <mat-radio-button class="task-radio-button" *ngFor="let month of months" [value]="month.id">
+                            {{month.name}}
+                        </mat-radio-button>
+                    </mat-radio-group>
+                 </div>
+
+                    Every 
+                    <mat-form-field appearance="outline" style="width:8%;text-align:center">
+                        <input matInput formControlName='frequency' type='number' autocomplete="false">
+                    </mat-form-field>
+                    Year on Day 
+                    <mat-form-field appearance="outline" style="width:8%;text-align:center">
+                        <input matInput formControlName='date' type='number' autocomplete="false">
+                    </mat-form-field>
+                    of 
+                   {{yearlyForm.get('month').value}}
+                    at
+                    <mat-form-field appearance="outline" style="text-align:center"> 
+                        <input  matInput  [ngxTimepicker]="yearlyTimePicker" formControlName='time' [value]="'12:00 pm'"  readonly>
+                        <ngx-material-timepicker #yearlyTimePicker></ngx-material-timepicker>
+                    </mat-form-field>
+                </form> 
+            </mat-tab>
+            <mat-tab label="One time"> 
+                <form [formGroup]="oneTimeForm" style="text-align: center;"> 
+                    <mat-form-field >
+                        <input matInput [min]="minDate" formControlName="date" [matDatepicker]="onceDatepicker">
+                        <mat-datepicker-toggle matSuffix [for]="onceDatepicker"></mat-datepicker-toggle>
+                        <mat-datepicker #onceDatepicker></mat-datepicker>
+                    </mat-form-field>
+                    
+                    at
+                    
+                    <mat-form-field appearance="outline" style="width:8%;text-align:center"> 
+                        <input  matInput  [ngxTimepicker]="onceTimePicker" formControlName='time' [value]="'12:00 pm'"  readonly>
+                        <ngx-material-timepicker #onceTimePicker></ngx-material-timepicker>
+                    </mat-form-field>
+                </form>
+            </mat-tab>
+        </mat-tab-group>
+       <div class="life-cycle-section" *ngIf="this.selectedTabIndex!=4">
+            <mat-slide-toggle [(ngModel)]="showLifeCycle" (click)="resetLifeCycleForm()">
+                Life cycle
+             </mat-slide-toggle>
+                
+            <div *ngIf="showLifeCycle">
+                <form [formGroup]="lifeCycleForm" style="text-align: center;"> 
+                    <mat-form-field appearance="outline">
+                        <label>Start date</label>
+                        <input matInput [min]="minDate" formControlName="startDate" [matDatepicker]="startDatePicker">
+                        <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+                        <mat-datepicker #startDatePicker></mat-datepicker>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <label>End date</label>
+                        <input matInput [min]="minDate" formControlName="endDate" [matDatepicker]="endDatePicker">
+                        <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+                        <mat-datepicker #endDatePicker></mat-datepicker>
+                    </mat-form-field>
+
+                    
+                    <mat-form-field *ngIf="!lifeCycleForm.get('onGoing').value" appearance="outline">
+                        <label>Repetitions</label>
+                        <input matInput (input)="changeOngoingCheckBox()" formControlName="repetitions">
+                    </mat-form-field>
+                    <mat-checkbox formControlName="onGoing">Ongoing (Forever or until the end date)</mat-checkbox>
+
+
+                </form>
+            </div>
+       </div>  
+
+        <div class="footer">
+            <button mat-button color="primary" (click)="submit()"> Create schedule </button>
+        </div>
+
+    </div>
