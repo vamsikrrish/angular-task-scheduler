@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatTabChangeEvent } from '@angular/material';
 import { timer } from 'rxjs';
+import { JobSchedulerService } from '../job-scheduler.service';
+import { HolidayListComponent } from '../dailog/holiday-list/holiday-list.component';
 
 @Component({
   selector: 'app-job-scheduler',
@@ -27,31 +29,14 @@ export class JobSchedulerComponent implements OnInit {
   isOneTimeForm: any;
   scheduledDays: any[];
   scheduleApplied: boolean;
+  days: any;
+  months: any;
 
-  constructor() { }
-days:any = [
-{id:1,name:'Monday'},
-{id:2,name:'Tuesday'},
-{id:3,name:'Wednesday'},
-{id:4,name:'Thursday'},
-{id:5,name:'Friday'},
-{id:6,name:'Saturday'},
-{id:7,name:'Sunday'},
-];
-months:any = [
-  {id:0,name:'January'},
-  {id:1,name:'February'},
-  {id:2,name:'March'},
-  {id:3,name:'April'},
-  {id:4,name:'May'},
-  {id:5,name:'June'},
-  {id:6,name:'July'},
-  {id:7,name:'August'},
-  {id:8,name:'September'},
-  {id:9,name:'October'},
-  {id:10,name:'November'},
-  {id:11,name:'December'}
-];
+  constructor(public jobService:JobSchedulerService) {
+    this.days=this.jobService.days;
+    this.months=this.jobService.months;
+   }
+
 
 dailyForm:FormGroup;
 weeklyForm:FormGroup;
@@ -260,7 +245,34 @@ lifeCycleForm:FormGroup;
     triggerTime.setDate( this.preference.dateOfMonth);
   }
     triggerTime.setHours(this.preference.hourOfDay,this.preference.minuteOfDay);
-    return triggerTime
+    return this.getNextPossibleWorkingDay(triggerTime)
+  }
+
+  getNextPossibleWorkingDay(date:Date): Date{
+    console.log('checking the validity of date:',date)
+    const selectedDay = date.getDay();
+    let validDate:boolean=true;
+    if(this.jobService.nonWOrkingDays.length>=7){
+      console.log('all days cannot be non - working');
+      return undefined;
+    }
+    if(this.jobService.nonWOrkingDays.includes(selectedDay)){
+      validDate=false;
+    }else{  //For efficiency
+      this.jobService.holidayDateList.forEach(holiday => {
+        if(holiday.getDate()==date.getDate() && holiday.getMonth()==date.getMonth() && holiday.getFullYear() == date.getFullYear()){
+          validDate=false;
+        }
+      });
+    }
+    
+    if(!validDate){
+      date.setDate(date.getDate()+1);
+      return this.getNextPossibleWorkingDay(date);
+    }else{
+     console.log('valid date is:',date)
+      return date;
+    }
   }
   getSuitableOffsetToGetMonth(expectedMonth: number, currentMonth: number): number {
     if((currentMonth+1)%12==expectedMonth){

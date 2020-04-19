@@ -4,16 +4,20 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatTabsModule,MatToolbarModule, MatDatepickerModule, MatGridListModule, MatInputModule, MatNativeDateModule, MatListModule, MatCardModule, MatRadioModule, MatButtonModule, MatSlideToggleModule, MatChipsModule, MatCheckbox, MatCheckboxModule, MatIconModule} from '@angular/material';
+import {MatTabsModule,MatToolbarModule, MatDatepickerModule, MatGridListModule, MatInputModule, MatNativeDateModule, MatListModule, MatCardModule, MatRadioModule, MatButtonModule, MatSlideToggleModule, MatChipsModule, MatCheckbox, MatCheckboxModule, MatIconModule, MatDialogModule, MatSelectModule} from '@angular/material';
 import { JobSchedulerComponent } from './job-scheduler/job-scheduler.component'
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HolidayListComponent } from './dailog/holiday-list/holiday-list.component';
+import { AddHolidayComponent } from './dailog/add-holiday/add-holiday.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    JobSchedulerComponent
+    JobSchedulerComponent,
+    AddHolidayComponent,
+    HolidayListComponent
   ],
   imports: [
     BrowserModule,
@@ -32,6 +36,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatChipsModule,
     MatCheckboxModule,
     MatIconModule,
+    MatDialogModule,
+    MatSelectModule,
     MatSlideToggleModule,
     FormsModule,
     ReactiveFormsModule,
@@ -40,6 +46,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     
   ],
   providers: [],
+  entryComponents:[ 
+    AddHolidayComponent,
+    HolidayListComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,25 @@
+<mat-card >
+    <mat-card-header>
+      <mat-card-title>Non Working Days</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p *ngFor="let dayNo of nonWorkingDays">
+          <span *ngIf="dayNo==0"> {{days[6].name}}</span>
+          <span *ngIf="dayNo!=0"> {{days[dayNo-1].name}}</span>
+      </p>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card >
+    <mat-card-header>
+      <mat-card-title>Holidays</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p *ngFor="let holiday of holidayList">
+          <span > {{holiday}}</span>
+      </p>
+      <p *ngIf="!(holidayList && holidayList.length &gt; 0)">
+        <span >No holidays</span>
+    </p>
+    </mat-card-content>
+  </mat-card>

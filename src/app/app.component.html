@@ -1,2 +1,15 @@
-<mat-toolbar color="primary" >Task Scheduler</mat-toolbar>
+<mat-toolbar color="primary" >
+    <mat-toolbar-row>
+        <span>Task Scheduler</span>
+        <span class="toolbar-spacer"></span>
+        <button mat-icon-button	 (click)="openHolidayList()"> 
+            <mat-icon class="toolbar-icon" aria-hidden="false" >favorite</mat-icon>
+        </button>
+        <button mat-icon-button	 (click)="openAddHolidayDailog()">
+            <mat-icon class="toolbar-icon" aria-hidden="false" >create</mat-icon>
+
+        </button> 
+    </mat-toolbar-row>
+            
+</mat-toolbar>
 <app-job-scheduler></app-job-scheduler>
