@@ -25,6 +25,8 @@ export class JobSchedulerComponent implements OnInit {
   lifeCycleEndDate: Date;
   preference:preference;
   isOneTimeForm: any;
+  scheduledDays: any[];
+  scheduleApplied: boolean;
 
   constructor() { }
 days:any = [
@@ -113,11 +115,13 @@ lifeCycleForm:FormGroup;
   }
   submit(){
     console.log('submit'); 
+    this.scheduledDays=[];
     this.preference=new preference();
     this.scheduledTime=new Date();
     this.triggerTime=new Date();
     this.triggerCount=0;
     this.isOneTimeForm=false;
+    this.scheduleApplied=true;
     this.lifeCycleStartDate= new Date(this.lifeCycleForm.value.startDate);
     this.lifeCycleEndDate= this.lifeCycleForm.value.endDate!=null && this.lifeCycleForm.value.endDate!=""? new Date(this.lifeCycleForm.value.endDate):undefined;
     switch(this.selectedTabIndex){
@@ -225,6 +229,7 @@ lifeCycleForm:FormGroup;
             && this.triggerTime >= this.lifeCycleStartDate
             ){
           console.log('schedule Time is:',this.triggerTime);
+          this.scheduledDays.push(new Date(this.triggerTime));
           if(this.isOneTimeForm){
             break;
           }

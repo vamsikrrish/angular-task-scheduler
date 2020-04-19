@@ -135,5 +135,20 @@
         <div class="footer">
             <button mat-button color="primary" (click)="submit()"> Create schedule </button>
         </div>
+        <mat-divider></mat-divider>
+        <div *ngIf="scheduleApplied" >
+            <div mat-subheader>Scheduled days</div>
+                <mat-list class="output-container">
+                    <mat-list-item *ngFor="let scheduledDay of scheduledDays">
+                        <span class="material-icons">
+                            access_time
+                        </span>                    
+                        <span >{{scheduledDay}}</span>
+                    </mat-list-item>
+                    <mat-list-item >
+                        <span *ngIf="!(scheduledDays && scheduledDays.length>0)" >No scheduled dates</span>
+                    </mat-list-item>
+                </mat-list>
 
+        </div>
     </div>
